@@ -13,12 +13,18 @@ CREATE TABLE `region` (
 	PRIMARY KEY(`id`)
 );
 
+INSERT INTO region
+VALUES (1,'Mesopotamia'), (2,'Asia'), (3, 'Holy Roman Empire');
+
 CREATE TABLE `time_period` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
 	`start_year` int(11),
 	`end_year` int(11),
 	PRIMARY KEY(`id`)
 );
+
+INSERT INTO time_period
+VALUES (1, 1400, 1600), (2, 1400, 1600), (3, 1400, 1600);
 
 CREATE TABLE `cities` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
@@ -29,6 +35,8 @@ CREATE TABLE `cities` (
 	FOREIGN KEY(`rid`) REFERENCES `region`(`id`)
 );
 
+INSERT INTO cities
+VALUES (1, 'Babylon', 2000000, 1), (2, 'Beijing', 500000, 2), (3, 'Vienna', 1000000, 3);
 
 CREATE TABLE `event` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
@@ -41,6 +49,8 @@ CREATE TABLE `event` (
 	FOREIGN KEY(`reid`) REFERENCES `region`(`id`)
 );
 
+INSERT INTO event
+VALUES (1, 'War1', 'Famous war', 1, 1), (2, 'War2', 'Famous War 2', 2,2), (3, 'Volcano', 'Volcano erupts', 3,3);
 
 CREATE TABLE `people` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
@@ -55,6 +65,11 @@ CREATE TABLE `people` (
 
 );
 
+INSERT INTO people
+VALUES (1, 'King', 'Gilgamesh', 1, 1, 'Ruler of Mesopotamia'),
+(2, 'Kublai', 'Khan', 2, 2, 'Asian Ruler'),
+(3, 'Charles The Great', 'Charlemagne', 3, 3, 'Founder of the Holy Roman Empire');
+
 CREATE TABLE `peoples_events` (
 	`pid` int(11), 
 	`eid` int(11),
@@ -62,3 +77,6 @@ CREATE TABLE `peoples_events` (
 	FOREIGN KEY(`pid`) REFERENCES `people`(`id`),
 	FOREIGN KEY(`eid`) REFERENCES `event`(`id`)
 );
+
+INSERT INTO peoples_events
+VALUES (1, 1), (2,2), (3,3)
