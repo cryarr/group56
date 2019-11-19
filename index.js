@@ -9,3 +9,10 @@ var pool = mysql.createPool({
 });
 
 module.exports.pool = pool;
+
+function getRegion(res, mysql){
+        mysql.pool.query("SELECT * FROM region", function(err, result, fields) {
+        if (err) throw err;
+        console.log(result);
+      }
+    )};
