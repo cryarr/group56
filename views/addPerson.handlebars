@@ -1,20 +1,44 @@
 <h1 class="mt-5">Add person</h1>
 <h5 class="mt-5">Add your person</h3>
 		
-<form action="/action_page.php">
+<form action="/addPerson" method="post">
 	ID: <input type="text" name="id"><br>
 	Name: <input type="text" name="name"><br>
 	Description: <input type="text" height="20px" name="desc"><br>
 	Event ID: <input type="text" name="pid"><br>
 	Region ID: <input type="text" name="rid"><br>
 	Time periodID: <input type="text" name="time"><br>
+	<input type="submit" value="submit"/>
 </form>
 <br><br><br><br><br>
 
 <h3>List of People</h3>
-	<pre style="font-size: 13pt;">ID		Name	Description	EventID			RegionID		Time Period</pre>  
-	<pre style="font-size: 10pt;">1			John army	....		1				1     			1<button type="button"> Delete</button> <button type="button"> Update</button> </pre>
-	<pre style="font-size: 10pt;">2			A name here 	....            2				2			3 <button type="button"> Delete</button> <button type="button"> Update</button> </pre>
-	<pre style="font-size: 10pt;">3			Another name	....		2				3			2 <button type="button"> Delete</button> <button type="button"> Update</button> </pre>
 
+<table>
+	<thead>
+		<tr>
+			<th>Id</th>
+			<th>First Name</th>
+			<th>Last Name</th>
+			<th>Region</th>
+			<th>City</th>
+			<th>Description</th>
+			<th>Remove/Update</th>
+		</tr>
+	</thead>
+	<tbody>
+		{{#each people}}
+			<tr>
+				<td>{{id}}</td>
+				<td>{{first_name}}</td>
+				<td>{{last_name}}</td>
+				<td>{{regid}}</td>
+				<td>{{citid}}</td>
+				<td>{{description}}</td>
+				<td><button type="button" id="removeId1">Remove</button>
+				<button type="button" id="updateId2">Update</button></td>
+			</tr>
+		{{/each}}
+	</tbody>
 
+</table>

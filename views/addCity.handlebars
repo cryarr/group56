@@ -2,20 +2,38 @@
 <h5 class="mt-5">Add your region</h3>
 
 
-<form action="/action_page.php">
+<form action="/addCity" method="post">
 	ID: <input type="text" name="id"><br>
 	Name: <input type="text" name="name"><br>
 	People ID: <input type="text" name="pid"><br>
 	Region ID: <input type="text" name="rid"><br>
 	Time periodID: <input type="text" name="time"><br>
+	<input type="submit" value="submit"/>
 </form>
-<button type="button">Insert</button>
 <br><br><br><br><br>
 <h3>List of Events</h3>
-	<pre style="font-size: 13pt;">ID			Name		PeopleID		RegionID		Time Period</pre>  
-	<pre style="font-size: 10pt;">1			Constantinople		1				1				1 <button type="button"> Delete</button> <button type="button"> Update</button> </pre>
-	<pre style="font-size: 10pt;">2			Mesopotamia		3				3				2 <button type="button"> Delete</button> <button type="button"> Update</button>  </pre>
-	<pre style="font-size: 10pt;">3			City 			2				3				2 <button type="button"> Delete</button> <button type="button"> Update</button> </pre>
 
+<table>
+	<thead>
+		<tr>
+			<th>ID</th>
+			<th>City Name</th>
+			<th>Population</th>
+			<th>rid</th>
+			<th>Update/remove</th>
+		</tr>
+	</thead>
+	<tbody>
+		{{#each city}}
+			<tr>
+				<td>{{id}}</td>
+				<td>{{city_name}}</td>
+				<td>{{population}}</td>
+				<td>{{rid}}</td>
+				<td><button type="button" id="removeId1">Remove</button>
+				<button type="button" id="updateId2">Update</button></td>
+			</tr>
+		{{/each}}
+	</tbody>
 
-
+</table>

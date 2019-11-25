@@ -1,20 +1,36 @@
 <h1 class="mt-5">Add region</h1>
 <h5 class="mt-5">Add your region</h3>
 		
-<form action="/action_page.php">
+<form action="/addRegion"
+	method="post">
 	 ID: <input type="text" name="id"><br>
 	 Region Name: <input type="text" name="rname"><br>
+	<input type="submit" value="submit"/>
 </form>
 
 
-<button type="button">Insert</button>
 
 <br><br><br><br><br><br>
 
 
 <h3>List of Regions</h3>
-	<pre style="font-size: 13pt;">ID		Region Name</pre>  
-	<pre style="font-size: 10pt;">			1		Mediterranean <button type="button"> Delete</button> <button type="button"> Update</button> </pre>
-	<pre style="font-size: 10pt;">		2		Asia <button type="button"> Delete</button> <button type="button"> Update</button> </pre>
-	<pre style="font-size: 10pt;">			3		Middle East <button type="button"> Delete</button> <button type="button"> Update</button>  </pre>
+<table>
+	<thead>
+		<tr>
+			<th>Id</th>
+			<th>Region Name</th>
+			<th>Remove/update</th>
+		</tr>
+	</thead>
+	<tbody>
+		{{#each region}}
+			<tr>
+				<td>{{id}}</td>
+				<td>{{region_name}}</td>
+				<td><button type="button" id="removeId1">Remove</button>
+				<button type="button" id="updateId2">Update</button></td>
+			</tr>
+		{{/each}}
+	</tbody>
 
+</table>
