@@ -91,6 +91,16 @@ app.get('/search', function(req, res, next){
 	res.render('search');
 });
 
+app.post('/search', function(req, res, next){
+	var lookup = "SELECT " + req.body.search;
+	mysql.pool.query(lookup, function(err, rows, fields){
+		if (err) {
+			console.log("error: " + err);
+		}
+		res.redirect('/search');
+	});
+});
+
 
 
 app.post('/addRegion', function(req, res, next){
