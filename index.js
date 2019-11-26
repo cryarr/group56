@@ -92,7 +92,7 @@ app.get('/search', function(req, res, next){
 });
 
 app.post('/search', function(req, res, next){
-	var lookup = "SELECT " + req.body.search;
+	var lookup = "SELECT * FROM people WHERE name = " + req.body.search;
 	mysql.pool.query(lookup, function(err, rows, fields){
 		if (err) {
 			console.log("error: " + err);
