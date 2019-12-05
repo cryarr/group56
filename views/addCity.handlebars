@@ -5,7 +5,11 @@
 <form action="/addCity" method="post">
 	Name: <input type="text" name="cname"><br>
 	Population: <input type="text" name="pop"><br>
-	Region ID: <input type="text" name="rid"><br>
+	Region: <select name="rid"> 
+		{{#each region}}
+			<option value="{{id}}">{{region_name}}</option>
+		{{/each}}
+	</select><br>
 	<input type="submit" value="submit"/>
 </form>
 <br><br><br><br><br>
@@ -28,8 +32,8 @@
 				<td>{{city_name}}</td>
 				<td>{{population}}</td>
 				<td>{{rid}}</td>
-				<td><button type="button" id="removeId1">Remove</button>
-				<button type="button" id="updateId2">Update</button></td>
+				<td><button type="button" onclick="deleteCity({{id}})">Remove</button>
+				<a href="/city/{{id}}">Update</a></td>
 			</tr>
 		{{/each}}
 	</tbody>

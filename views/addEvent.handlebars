@@ -3,8 +3,16 @@
 <form action="/addEvent" method="post">
 	Name: <input type="text" name="ename"><br>
 	Description: <input type="text" height="20px" name="desc"><br>
-	Region ID: <input type="text" name="reid"><br>
-	Time periodID: <input type="text" name="tpid"><br>
+	Region: <select name="reid">
+			{{#each region}}
+				<option value="{{id}}">{{region_name}}</option>
+			{{/each}}
+			</select><br>
+	Time period: <select name="tpid">
+			{{#each time}}
+				<option value="{{id}}">{{start_year}} - {{end_year}}</option>
+			{{/each}}
+				</select><br>
 	<input type="submit" value="submit"/>
 </form>
 
@@ -30,8 +38,8 @@
 				<td>{{description}}</td>
 				<td>{{reid}}</td>
 				<td>{{tpid}}</td>
-				<td><button type="button" id="removeId1">Remove</button>
-				<button type="button" id="updateId2">Update</button></td>
+				<td><button type="button" onclick="deleteEvent({{id}})"">Remove</button>
+				<a href="/event/{{id}}">Update</a></td>
 			</tr>
 		{{/each}}
 	</tbody>

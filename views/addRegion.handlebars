@@ -26,8 +26,8 @@
 			<tr>
 				<td>{{id}}</td>
 				<td>{{region_name}}</td>
-				<td><button type="button" id="removeId1">Remove</button>
-				<button type="button" id="updateId2">Update</button></td>
+				<td><button type="button" onclick="deleteRegion({{id}})">Remove</button>
+				<a href="/region/{{id}}">Update</a></td>
 			</tr>
 		{{/each}}
 	</tbody>

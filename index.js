@@ -15,6 +15,7 @@ app.set('myql', mysql);
 const publicPath = path.join(__dirname, '/vendor');
 app.use(express.static(publicPath));
 
+var router = express.Router();
 
 app.listen(app.get('port'), function() {
 	console.log('Express started on flip:' + app.get('port'));
@@ -22,12 +23,16 @@ app.listen(app.get('port'), function() {
 });
 
 app.get('/', function(req, res, next){
-	res.render('landing');
+	var context = {};
+	context.jsscripts = ['delete.js'];
+	res.render('landing', context);
 });
 
 app.get('/add', function(req, res, next){
 	res.render('add');
 });
+
+
 
 //landing and viewing the updates
 
@@ -55,9 +60,12 @@ app.get('/addPerson', function(req, res, next){
 	});
 });
 
+
+
 app.get('/addRegion', function(req, res, next){
 	var context = {};
 	var viewstring = "SELECT * FROM region";
+	context.jsscripts = ['delete.js'];
 	mysql.pool.query(viewstring, function(err, rows, fields){
 		if (err) {
 			console.log("error : " + err);
@@ -68,6 +76,29 @@ app.get('/addRegion', function(req, res, next){
 	});
 });
 
+
+app.delete('/addRegion/:id', function(req, res){
+	var sql = "DELETE FROM region WHERE id = ?";
+	var inserts = [req.params.id];
+	mysql.pool.query(sql, inserts, function(error, results, fields){
+
+		if(error){
+	        console.log(error)
+		    res.write(JSON.stringify(error));
+	        res.status(400);
+			res.end();
+		}else{
+			res.status(202).end();
+		}
+
+
+	});
+});
+
+
+
+
+
 app.get('/addEvent', function(req, res, next){
 	var context = {};
 	var viewstring = "SELECT * FROM event";
@@ -77,10 +108,23 @@ app.get('/addEvent', function(req, res, next){
 		}
 		
 		context.event = rows;
-		res.render('addEvent', context);
+		viewstring = "SELECT * FROM region";
+		mysql.pool.query(viewstring, function(err, rows, fields) {
+		
+			context.region = rows;
+			viewstring = "SELECT * FROM time_period";
+			mysql.pool.query(viewstring, function(err, rows, fields) {
+			
+				context.time = rows;
+				res.render('addEvent', context);
+			});
+		});
 	
 	});
 });
+
+
+
 
 app.get('/addCity', function(req, res, next){
 	var context = {};
@@ -91,7 +135,12 @@ app.get('/addCity', function(req, res, next){
 		}
 
 		context.city = rows;
-		res.render('addCity', context);
+		viewstring = "SELECT * FROM region";
+		mysql.pool.query(viewstring, function(err, rows, fields){
+			context.region = rows;
+			res.render('addCity', context);
+		});
+
 	
 	});
 });
