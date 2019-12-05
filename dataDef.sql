@@ -33,6 +33,7 @@ CREATE TABLE `cities` (
 	`rid` int(11),
 	PRIMARY KEY(`id`),
 	FOREIGN KEY(`rid`) REFERENCES `region`(`id`)
+	ON DELETE CASCADE
 );
 
 INSERT INTO cities
@@ -45,8 +46,9 @@ CREATE TABLE `event` (
 	`reid` int(11),
 	`tpid` int(11),
 	PRIMARY KEY(`id`),
-	FOREIGN KEY(`tpid`) REFERENCES `time_period`(`id`),
+	FOREIGN KEY(`tpid`) REFERENCES `time_period`(`id`) ON DELETE CASCADE,
 	FOREIGN KEY(`reid`) REFERENCES `region`(`id`)
+	ON DELETE CASCADE
 );
 
 INSERT INTO event
@@ -60,8 +62,9 @@ CREATE TABLE `people` (
 	`citid` int(11),
 	`description` TEXT,
 	PRIMARY KEY(`id`),
-	FOREIGN KEY(`regid`) REFERENCES `region`(`id`),
+	FOREIGN KEY(`regid`) REFERENCES `region`(`id`) ON DELETE CASCADE,
 	FOREIGN KEY(`citid`) REFERENCES `cities`(`id`)
+	ON DELETE CASCADE
 
 );
 
@@ -74,8 +77,8 @@ CREATE TABLE `peoples_events` (
 	`pid` int(11), 
 	`eid` int(11),
 	PRIMARY KEY(`pid`, `eid`),
-	FOREIGN KEY(`pid`) REFERENCES `people`(`id`),
-	FOREIGN KEY(`eid`) REFERENCES `event`(`id`)
+	FOREIGN KEY(`pid`) REFERENCES `people`(`id`) ON DELETE CASCADE,
+	FOREIGN KEY(`eid`) REFERENCES `event`(`id`) ON DELETE CASCADE
 );
 
 INSERT INTO peoples_events

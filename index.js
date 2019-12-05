@@ -34,10 +34,14 @@ app.get('/add', function(req, res, next){
 
 
 
-//landing and viewing the updates
+
+/* DISPLAYING, DELETING, UPDATING
+ *
+ * */
 
 app.get('/addPerson', function(req, res, next){
 	var context= {};
+	context.jsscripts = ['delete.js'];
 	var viewstring = "SELECT * FROM people";
 	mysql.pool.query(viewstring, function(err, rows, fields){
 		if (err) {
@@ -60,25 +64,8 @@ app.get('/addPerson', function(req, res, next){
 	});
 });
 
-
-
-app.get('/addRegion', function(req, res, next){
-	var context = {};
-	var viewstring = "SELECT * FROM region";
-	context.jsscripts = ['delete.js'];
-	mysql.pool.query(viewstring, function(err, rows, fields){
-		if (err) {
-			console.log("error : " + err);
-		}
-
-		context.region = rows;
-		res.render('addRegion', context);
-	});
-});
-
-
-app.delete('/addRegion/:id', function(req, res){
-	var sql = "DELETE FROM region WHERE id = ?";
+app.delete('/addPerson/:id', function(req, res){
+	var sql = " DELETE FROM people WHERE id = ?";
 	var inserts = [req.params.id];
 	mysql.pool.query(sql, inserts, function(error, results, fields){
 
@@ -97,11 +84,88 @@ app.delete('/addRegion/:id', function(req, res){
 
 
 
+app.get('/addRegion', function(req, res, next){
+	var context = {};
+	var viewstring = "SELECT * FROM region";
+	context.jsscripts = ['delete.js'];
+	mysql.pool.query(viewstring, function(err, rows, fields){
+		if (err) {
+			console.log("error : " + err);
+		}
+
+		context.region = rows;
+		res.render('addRegion', context);
+	});
+});
+
+
+app.delete('/addRegion/:id', function(req, res){
+	var sql = " DELETE FROM region WHERE id = ?";
+	var inserts = [req.params.id];
+	mysql.pool.query(sql, inserts, function(error, results, fields){
+
+		if(error){
+	        console.log(error)
+		    res.write(JSON.stringify(error));
+	        res.status(400);
+			res.end();
+		}else{
+			res.status(202).end();
+		}
+
+
+	});
+});
+
+
+app.get('/region/:id', function(req,res){
+	var context = {};
+	var sql = "SELECT * FROM region WHERE id=?";
+	var inserts = [req.params.id];
+	mysql.pool.query(sql, inserts, function(error, rows, fields){
+
+		if(error){
+	        console.log(error)
+		    res.write(JSON.stringify(error));
+	        res.status(400);
+			res.end();
+		}else{
+		
+			context.region = rows[0];
+			res.render('updateRegion', context);
+		}
+
+
+	});
+
+});
+
+
+app.post('/region', function(req, res){
+	var sql = "UPDATE region SET region_name=? WHERE id=?";
+	var inserts = [req.body.rname, req.body.id];
+	console.log(inserts);
+	mysql.pool.query(sql, inserts, function(error, results, fields){
+
+		if(error){
+	        console.log(error)
+		    res.write(JSON.stringify(error));
+	        res.status(400);
+			res.end();
+		}else{
+			res.redirect('/addRegion');
+		}
+
+	});
+	
+
+});
 
 
 app.get('/addEvent', function(req, res, next){
 	var context = {};
 	var viewstring = "SELECT * FROM event";
+	context.jsscripts = ['delete.js'];
 	mysql.pool.query(viewstring, function(err, rows, fields) {
 		if (err) {
 			console.log("error : " + err);
@@ -124,10 +188,28 @@ app.get('/addEvent', function(req, res, next){
 });
 
 
+app.delete('/addEvent/:id', function(req, res){
+	var sql = " DELETE FROM event WHERE id = ?";
+	var inserts = [req.params.id];
+	mysql.pool.query(sql, inserts, function(error, results, fields){
+
+		if(error){
+	        console.log(error)
+		    res.write(JSON.stringify(error));
+	        res.status(400);
+			res.end();
+		}else{
+			res.status(202).end();
+		}
+
+
+	});
+});
 
 
 app.get('/addCity', function(req, res, next){
 	var context = {};
+	context.jsscripts = ['delete.js'];
 	var viewstring = "SELECT * FROM cities";
 	mysql.pool.query(viewstring, function(err, rows, fields){
 		if (err) {
@@ -145,8 +227,29 @@ app.get('/addCity', function(req, res, next){
 	});
 });
 
+app.delete('/addCity/:id', function(req, res){
+	var sql = " DELETE FROM cities WHERE id = ?";
+	var inserts = [req.params.id];
+	mysql.pool.query(sql, inserts, function(error, results, fields){
+
+		if(error){
+	        console.log(error)
+		    res.write(JSON.stringify(error));
+	        res.status(400);
+			res.end();
+		}else{
+			res.status(202).end();
+		}
 
 
+	});
+});
+
+/* SEARCH
+ *
+ *
+ *
+ * */
 app.get('/search', function(req, res, next){
 	res.render('search');
 });
@@ -163,7 +266,10 @@ app.post('/search', function(req, res, next){
 	});
 });
 
-
+/* INSERTS 
+ *
+ *
+ * */
 
 app.post('/addRegion', function(req, res, next){
 	var insert = "INSERT INTO region (region_name) VALUES ('" + req.body.rname + "')";
