@@ -40,7 +40,18 @@ app.get('/addPerson', function(req, res, next){
 		}
 
 		context.people = rows;
-		res.render('addPerson', context);
+		viewstring = "SELECT * FROM cities";
+		mysql.pool.query(viewstring, function(err, rows, fields){
+				viewstring = "SELECT * FROM region";
+				context.city = rows;
+				mysql.pool.query(viewstring, function(err, rows, fields){
+				
+					context.region = rows;		
+					res.render('addPerson', context);
+				});
+
+		});
+		
 	});
 });
 

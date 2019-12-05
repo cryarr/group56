@@ -4,8 +4,16 @@
 <form action="/addPerson" method="post">
 	First Name: <input type="text" name="fname"><br>
 	Last Name: <input type="text" name="lname"><br>
-	Region ID: <input type="text" name="regid"><br>
-	City ID: <input type="text" name="citid"><br>
+	Region: <select name="regid">
+		{{#each region}}
+			<option value="{{id}}">{{region_name}}</option>
+		{{/each}}
+	</select><br>
+	City: <select name="citid">
+		{{#each city}}
+			<option value="{{id}}">{{city_name}}</option>
+		{{/each}}
+	</select><br>
 	Description: <input type="text" height="20px" name="desc"><br>
 	<input type="submit" value="submit"/>
 </form>
@@ -34,8 +42,8 @@
 				<td>{{regid}}</td>
 				<td>{{citid}}</td>
 				<td>{{description}}</td>
-				<td><button type="button" id="removeId1">Remove</button>
-				<button type="button" id="updateId2">Update</button></td>
+				<td><button type="button" onclick="deletePerson({{id}})">Remove</button>
+				<a href="/people/{{id}}">Update</a></td>
 			</tr>
 		{{/each}}
 	</tbody>
