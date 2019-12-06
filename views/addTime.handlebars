@@ -1,0 +1,38 @@
+<h1 class="mt-5">Add time period</h1>
+<h5 class="mt-5">Add your time period</h3>
+		
+<form action="/addTime"
+	method="post">
+	 Start year: <input type="text" name="syear"><br>
+	 End year: <input type="text" name="eyear"><br>
+	<input type="submit" value="submit"/>
+</form>
+
+
+
+<br><br><br><br><br><br>
+
+
+<h3>List of Time periods</h3>
+<table>
+	<thead>
+		<tr>
+			<th>Id</th>
+			<th>Start Year</th>
+			<th>End year</th>
+			<th>Remove/update</th>
+		</tr>
+	</thead>
+	<tbody>
+		{{#each time}}
+			<tr>
+				<td>{{id}}</td>
+				<td>{{start_year}}</td>
+				<td>{{end_year}}</td>
+				<td><button type="button" onclick="deleteTime({{id}})">Remove</button>
+				<a href="/time/{{id}}">Update</a></td>
+			</tr>
+		{{/each}}
+	</tbody>
+
+</table>

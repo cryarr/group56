@@ -39,3 +39,13 @@ function deleteCity(id){
 		}
 	})
 };
+
+function deleteTime(id){
+	$.ajax({
+		url: '/addTime/' + id,
+		type: 'DELETE',
+		success: function(result){
+			 window.location.reload(true);
+		}
+	})
+};

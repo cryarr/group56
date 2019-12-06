@@ -1,0 +1,27 @@
+<h1 class="mt-5">Update person</h1>
+<h5 class="mt-5">Update your person</h3>
+		
+<form action="/person/"
+	method="post">
+	<input type="hidden" name="id" value="{{people.id}}">
+	First Name: 
+	 <input type="text" name="fname" value="{{people.first_name}}"><br>
+	Last Name: <input type="text" name="lname" value="{{people.last_name}}"><br>
+	Region: <select name="regid">
+		{{#each region}}
+			<option value="{{id}}">{{region_name}}</option>
+		{{/each}}
+	</select><br>
+	City: <select name="citid">
+		{{#each city}}
+			<option value="{{id}}">{{city_name}}</option>
+		{{/each}}
+	</select><br>
+	Description: <input type="text" height="20px" name="desc" value="{{people.description}}"><br>
+	<input type="submit" value="submit"/>
+</form>
+
+
+
+<br><br><br><br><br><br>
+

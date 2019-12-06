@@ -83,6 +83,59 @@ app.delete('/addPerson/:id', function(req, res){
 });
 
 
+app.get('/person/:id', function(req,res){
+	var context = {};
+	var sql = "SELECT * FROM people WHERE id=?";
+	var inserts = [req.params.id];
+	mysql.pool.query(sql, inserts, function(error, rows, fields){
+		if(error){
+	        console.log(error)
+		    res.write(JSON.stringify(error));
+	        res.status(400);
+			res.end();
+		}else{
+		
+			context.people  = rows[0];
+			sql = "SELECT * FROM cities";
+			mysql.pool.query(sql, function(err, rows, fields){
+				sql = "SELECT * FROM region";
+				context.city = rows;
+				mysql.pool.query(sql, function(err, rows, fields){
+				
+					context.region = rows;		
+					res.render('updatePerson', context);
+				});
+
+		});
+
+		}
+
+
+	});
+
+});
+
+
+app.post('/person', function(req, res){
+	var sql = "UPDATE people SET first_name=?, last_name=?, regid=?, citid=?, description=? WHERE id=?";
+	var inserts = [req.body.fname, req.body.lname, req.body.regid, req.body.citid, req.body.desc, req.body.id];
+	console.log(inserts);
+	mysql.pool.query(sql, inserts, function(error, results, fields){
+
+		if(error){
+	        console.log(error)
+		    res.write(JSON.stringify(error));
+	        res.status(400);
+			res.end();
+		}else{
+			res.redirect('/addPerson');
+		}
+
+	});
+	
+
+});
+
 
 app.get('/addRegion', function(req, res, next){
 	var context = {};
@@ -207,6 +260,59 @@ app.delete('/addEvent/:id', function(req, res){
 });
 
 
+app.get('/event/:id', function(req,res){
+	var context = {};
+	var sql = "SELECT * FROM event WHERE id=?";
+	var inserts = [req.params.id];
+	mysql.pool.query(sql, inserts, function(error, rows, fields){
+		if(error){
+	        console.log(error)
+		    res.write(JSON.stringify(error));
+	        res.status(400);
+			res.end();
+		}else{
+			context.event = rows[0];
+			sql = "SELECT * FROM region";
+			mysql.pool.query(sql, function(err, rows, fields){
+				context.region = rows;	
+
+				sql = "SELECT * FROM time_period";
+				mysql.pool.query(sql, function(err, rows, fields){
+				
+					context.time = rows;
+					res.render('updateEvent', context);
+				
+				});
+			});
+
+
+		}
+
+
+	});
+
+});
+
+
+app.post('/event', function(req, res){
+	var sql = "UPDATE event SET event_name=?, description=?, reid=?, tpid=? WHERE id=?";
+	var inserts = [req.body.ename, req.body.desc, req.body.reid, req.body.tpid, req.body.id];
+	console.log(inserts);
+	mysql.pool.query(sql, inserts, function(error, results, fields){
+		if(error){
+	        console.log(error)
+		    res.write(JSON.stringify(error));
+	        res.status(400);
+			res.end();
+		}else{
+			res.redirect('/addEvent');
+		}
+
+	});
+	
+
+});
+
 app.get('/addCity', function(req, res, next){
 	var context = {};
 	context.jsscripts = ['delete.js'];
@@ -245,6 +351,129 @@ app.delete('/addCity/:id', function(req, res){
 	});
 });
 
+app.get('/city/:id', function(req,res){
+	var context = {};
+	var sql = "SELECT * FROM cities WHERE id=?";
+	var inserts = [req.params.id];
+	mysql.pool.query(sql, inserts, function(error, rows, fields){
+		if(error){
+	        console.log(error)
+		    res.write(JSON.stringify(error));
+	        res.status(400);
+			res.end();
+		}else{
+		
+			context.city  = rows[0];
+			sql = "SELECT * FROM region";
+			mysql.pool.query(sql, function(err, rows, fields){
+				
+					context.region = rows;		
+					res.render('updateCity', context);
+			});
+
+
+		}
+
+
+	});
+
+});
+
+
+app.post('/city', function(req, res){
+	var sql = "UPDATE cities SET city_name=?, population=?, rid=? WHERE id=?";
+	var inserts = [req.body.cname, req.body.pop, req.body.rid, req.body.id];
+	console.log(inserts);
+	mysql.pool.query(sql, inserts, function(error, results, fields){
+		if(error){
+	        console.log(error)
+		    res.write(JSON.stringify(error));
+	        res.status(400);
+			res.end();
+		}else{
+			res.redirect('/addCity');
+		}
+
+	});
+	
+
+});
+
+
+app.get('/addTime', function(req, res, next){
+	var context = {};
+	context.jsscripts = ['delete.js'];
+	var viewstring = "SELECT * FROM time_period";
+	mysql.pool.query(viewstring, function(err, rows, fields){
+		if (err) {
+			console.log("error : " + err);
+		}
+
+		context.time = rows;
+		viewstring = "SELECT * FROM region";
+		res.render('addTime', context);
+	
+	});
+});
+
+app.delete('/addTime/:id', function(req, res){
+	var sql = " DELETE FROM time_period WHERE id = ?";
+	var inserts = [req.params.id];
+	mysql.pool.query(sql, inserts, function(error, results, fields){
+		if(error){
+	        console.log(error)
+		    res.write(JSON.stringify(error));
+	        res.status(400);
+			res.end();
+		}else{
+			res.status(202).end();
+		}
+
+
+	});
+});
+
+app.get('/time/:id', function(req,res){
+	var context = {};
+	var sql = "SELECT * FROM time_period WHERE id=?";
+	var inserts = [req.params.id];
+	mysql.pool.query(sql, inserts, function(error, rows, fields){
+		if(error){
+	        console.log(error)
+		    res.write(JSON.stringify(error));
+	        res.status(400);
+			res.end();
+		}else{
+		
+			context.time  = rows[0];
+			res.render('updateTime', context);
+
+		}
+
+
+	});
+
+});
+
+
+app.post('/time', function(req, res){
+	var sql = "UPDATE time_period SET start_year=?, end_year=? WHERE id=?";
+	var inserts = [req.body.syear, req.body.eyear, req.body.id];
+	console.log(inserts);
+	mysql.pool.query(sql, inserts, function(error, results, fields){
+		if(error){
+	        console.log(error)
+		    res.write(JSON.stringify(error));
+	        res.status(400);
+			res.end();
+		}else{
+			res.redirect('/addTime');
+		}
+
+	});
+	
+
+});
 /* SEARCH
  *
  *
@@ -323,6 +552,21 @@ app.post('/addCity', function(req, res, next){
 			console.log("error: + " + err);
 		}
 		res.redirect('/addCity');
+	});
+
+});
+
+
+app.post('/addTime', function(req, res, next){
+	var insert = "INSERT INTO time_period (start_year,end_year) VALUES ('" + req.body.syear + 
+	"','" + req.body.eyear + "')";
+	console.log(insert);
+
+	mysql.pool.query(insert, function(err, rows, fields){
+		if (err) {
+			console.log("error: + " + err);
+		}
+		res.redirect('/addTime');
 	});
 
 });
