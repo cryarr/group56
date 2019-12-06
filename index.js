@@ -484,16 +484,19 @@ app.get('/search', function(req, res, next){
 });
 
 app.post('/search', function(req, res, next){
-	var lookup = "SELECT * FROM people WHERE first_name = '" + req.body.search + "'";
-	var context = {};
-	mysql.pool.query(lookup, function(err, rows, fields){
-		if (err) {
-			console.log("error: " + err);
-		}
-		context.search = rows;
-		res.render('search', context);
-	});
+        var lookup = "SELECT last_name FROM people";
+
+        var context = {};
+        mysql.pool.query(lookup, function(err, result){
+                if (err) {
+                	console.log("error: " + err);
+                }
+                console.log(result);
+                context.search = result;
+                res.render('search', context);
+        });
 });
+
 
 /* INSERTS 
  *
