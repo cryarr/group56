@@ -484,16 +484,17 @@ app.get('/search', function(req, res, next){
 });
 
 app.post('/search', function(req, res, next){
-        var lookup = "SELECT last_name FROM people";
+        var lookup = "SELECT * FROM people WHERE first_name LIKE '%" + req.body.search + "%' OR last_name LIKE '%" + req.body.search + "%' OR regid LIKE '%" + req.body.search + "%' OR citid LIKE '%" + req.body.search + "%' OR description LIKE '%" + req.body.search + "%'";
 
         var context = {};
         mysql.pool.query(lookup, function(err, result){
                 if (err) {
-                	console.log("error: " + err);
+                        console.log("error: " + err);
                 }
-                console.log(result);
                 context.search = result;
-                res.render('search', context);
+                console.log(result[0]);
+                res.render('search', {people: result});
+
         });
 });
 
