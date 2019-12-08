@@ -31,20 +31,17 @@
 			<th>Region</th>
 			<th>City</th>
 			<th>Description</th>
-			<th>Remove/Update</th>
 		</tr>
 	</thead>
 	<tbody>
 		{{#each search}}
 			<tr>
-				<td>{{id}}</td>
-				<td>{{first_name}}</td>
-				<td>{{last_name}}</td>
-				<td>{{regid}}</td>
-				<td>{{citid}}</td>
-				<td>{{description}}</td>
-				<td><button type="button" id="removeId1">Remove</button>
-				<button type="button" id="updateId2">Update</button></td>
+				<td>{{this.id}}</td>
+				<td>{{this.first_name}}</td>
+				<td>{{this.last_name}}</td>
+				<td>{{this.regid}}</td>
+				<td>{{this.citid}}</td>
+				<td>{{this.description}}</td>
 			</tr>
 		{{/each}}
 	</tbody>
