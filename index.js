@@ -511,16 +511,20 @@ app.get('/search', function(req, res, next){
 });
 
 app.post('/search', function(req, res, next){
-	var lookup = "SELECT * FROM people WHERE first_name = '" + req.body.search + "'";
-	var context = {};
-	mysql.pool.query(lookup, function(err, rows, fields){
-		if (err) {
-			console.log("error: " + err);
-		}
-		context.search = rows;
-		res.render('search', context);
-	});
+        var lookup = "SELECT * FROM people WHERE first_name LIKE '%" + req.body.search + "%' OR last_name LIKE '%" + req.body.search + "%' OR regid LIKE '%" + req.body.search + "%' OR citid LIKE '%" + req.body.search + "%' OR description LIKE '%" + req.body.search + "%'";
+
+        var context = {};
+        mysql.pool.query(lookup, function(err, result){
+                if (err) {
+                        console.log("error: " + err);
+                }
+                context.search = result;
+                console.log(result[0]);
+                res.render('search', {people: result});
+
+        });
 });
+
 
 /* INSERTS 
  *
