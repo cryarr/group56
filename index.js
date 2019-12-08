@@ -215,6 +215,33 @@ app.post('/region', function(req, res){
 });
 
 
+app.get('/associatePE', function(req, res, next){
+	var context = {};
+	var viewstring = "SELECT * FROM event";
+	context.jsscripts = ['delete.js'];
+	mysql.pool.query(viewstring, function(err, rows, fields) {
+		if (err) {
+			console.log("error : " + err);
+		}
+		
+		context.event = rows;
+		viewstring = "SELECT * FROM people";
+		mysql.pool.query(viewstring, function(err, rows, fields) {
+		
+			context.person = rows;
+			viewstring = "select people.id, people.last_name, event.id, event.event_name FROM (people, event) INNER JOIN peoples_events ON people.id = peoples_events.pid AND event.id = peoples_events.eid";
+			mysql.pool.query(viewstring, function(err, rows, fields) {
+				context.pe = rows;
+				console.log(context.pe);
+				res.render('associatePE', context);
+			});
+		});
+	
+	});
+});
+
+
+
 app.get('/addEvent', function(req, res, next){
 	var context = {};
 	var viewstring = "SELECT * FROM event";
@@ -567,6 +594,20 @@ app.post('/addTime', function(req, res, next){
 			console.log("error: + " + err);
 		}
 		res.redirect('/addTime');
+	});
+
+});
+
+app.post('/associatePE', function(req, res, next){
+	var insert = "INSERT INTO peoples_events (pid,eid) VALUES ('" + req.body.per + 
+	"','" + req.body.ev + "')";
+	console.log(insert);
+
+	mysql.pool.query(insert, function(err, rows, fields){
+		if (err) {
+			console.log("error: + " + err);
+		}
+		res.redirect('/associatePE');
 	});
 
 });

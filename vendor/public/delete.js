@@ -49,3 +49,14 @@ function deleteTime(id){
 		}
 	})
 };
+/*
+function deletePeopleEvent(last_name, event_name){
+	console.log("Inside delete");
+	$.ajax({
+		url: '/associatePE/' + last_name + event_name,
+		type: 'DELETE',
+		success: function(result){
+			 window.location.reload(true);
+		}
+	})
+};*/

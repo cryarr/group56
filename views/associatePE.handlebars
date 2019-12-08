@@ -1,0 +1,38 @@
+<h1 class="mt-5">Associate people and events</h1>
+<h5 class="mt-5">Add your association</h3>
+		
+<form action="/associatePE" method="post">
+	Person:
+		<select name="per">
+			{{#each person}}
+				<option value="{{id}}">{{last_name}}</option>
+			{{/each}}
+		</select><br>
+	Event: <select name="ev"><br>
+		{{#each event}}
+			<option value="{{id}}">{{event_name}}</option>
+		{{/each}}
+	</select><br>
+	<input type="submit" value="submit"/>
+</form>
+<br><br><br><br><br>
+
+<h3>List of People and their events</h3>
+
+<table>
+	<thead>
+		<tr>
+			<th>Last Name</th>
+			<th>Event name</th>
+		</tr>
+	</thead>
+	<tbody>
+		{{#each pe}}
+			<tr>
+				<td>{{last_name}}</td>
+				<td>{{event_name}}</td>
+			</tr>
+		{{/each}}
+	</tbody>
+
+</table>
