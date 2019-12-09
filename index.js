@@ -520,7 +520,7 @@ app.post('/search', function(req, res, next){
                 }
                 context.search = result;
                 console.log(result[0]);
-                res.render('search', {people: result});
+                res.render('search', context);
 
         });
 });
@@ -546,7 +546,7 @@ app.post('/addRegion', function(req, res, next){
 
 app.post('/addPerson', function(req, res, next){
 	var insert = "INSERT INTO people (first_name,last_name,regid,citid,description) VALUES ('" +
-	req.body.fname + "','" +  req.body.lname + "','" + req.body.regid + "','" + req.body.citid + "','" + req.body.desc
+	req.body.fname + "','" +  req.body.lname + "'," + req.body.regid + "," + req.body.citid + ",'" + req.body.desc
 	+ "')";
 	console.log(insert);
 	mysql.pool.query(insert, function(err, rows, fields){
@@ -561,7 +561,7 @@ app.post('/addPerson', function(req, res, next){
 
 app.post('/addEvent', function(req, res, next) {
 	var insert = "INSERT INTO event (event_name,description,reid,tpid) VALUES ('" +
-	req.body.ename + "','" + req.body.desc + "','" + req.body.reid + "','" + req.body.tpid + "')";
+	req.body.ename + "','" + req.body.desc + "'," + req.body.reid + "," + req.body.tpid + ")";
 	console.log(insert);
 	mysql.pool.query(insert, function(err, rows, fields){
 		if (err) {
@@ -575,7 +575,7 @@ app.post('/addEvent', function(req, res, next) {
 
 app.post('/addCity', function(req, res, next){
 	var insert = "INSERT INTO cities (city_name,population,rid) VALUES ('" + req.body.cname + 
-	"','" + req.body.pop + "','" + req.body.rid + "')";
+	"'," + req.body.pop + "," + req.body.rid + ")";
 	console.log(insert);
 
 	mysql.pool.query(insert, function(err, rows, fields){
@@ -589,8 +589,8 @@ app.post('/addCity', function(req, res, next){
 
 
 app.post('/addTime', function(req, res, next){
-	var insert = "INSERT INTO time_period (start_year,end_year) VALUES ('" + req.body.syear + 
-	"','" + req.body.eyear + "')";
+	var insert = "INSERT INTO time_period (start_year,end_year) VALUES (" + req.body.syear + 
+	"," + req.body.eyear + ")";
 	console.log(insert);
 
 	mysql.pool.query(insert, function(err, rows, fields){

@@ -1,11 +1,12 @@
-<h1 class="mt-5">Add region</h1>
-<h5 class="mt-5">Add your region</h3>
+<h1 class="mt-5">Add city</h1>
+<h5 class="mt-5">Add your city</h3>
 
 
 <form action="/addCity" method="post">
 	Name: <input type="text" name="cname"><br>
 	Population: <input type="text" name="pop"><br>
 	Region: <select name="rid"> 
+		<option value="NULL">NULL</option>
 		{{#each region}}
 			<option value="{{id}}">{{region_name}}</option>
 		{{/each}}

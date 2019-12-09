@@ -4,11 +4,13 @@
 	Name: <input type="text" name="ename"><br>
 	Description: <input type="text" height="20px" name="desc"><br>
 	Region: <select name="reid">
+		<option value="NULL">NULL</option>
 			{{#each region}}
 				<option value="{{id}}">{{region_name}}</option>
 			{{/each}}
 			</select><br>
 	Time period: <select name="tpid">
+		<option value="NULL">NULL</option>
 			{{#each time}}
 				<option value="{{id}}">{{start_year}} - {{end_year}}</option>
 			{{/each}}
